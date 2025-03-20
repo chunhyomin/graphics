@@ -46,7 +46,7 @@ class App {
         this._scene.add(light);
     }
     _setupModel(){
-        const geometry = new THREE.BoxGeometry(1,1,1, 2,2,2);
+        const geometry = new THREE.TorusKnotGeometry(0.8, 0.2, 100, 16, 2, 3);
         const fillMaterial = new THREE.MeshPhongMaterial({color:0x515151});
         const cube = new THREE.Mesh(geometry, fillMaterial);
         const lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00});
