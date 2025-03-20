@@ -45,9 +45,9 @@ class App {
         light.position.set(-1, 2, 4);
         this._scene.add(light);
     }
-    _setupModel(){        
-        const shape = new THREE.Shape();
+    _setupModel(){            
         const x = -2.5, y = -5;
+        const shape = new THREE.Shape();
         shape.moveTo(x + 2.5, y + 2.5);
         shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
         shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
@@ -55,9 +55,18 @@ class App {
         shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
         shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
         shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
+
+        const settings = {
+            steps: 1,
+            depth: 4,
+            bevelEnabled: false,
+            bevelThickness: 0.1,
+            bevelSize: 0.1,
+            bevelSegments: 1,
+        };
         
-        const geometry = new THREE.ShapeGeometry(shape);
-        const fillMaterial = new THREE.MeshPhongMaterial({color:0x515151});
+        const geometry = new THREE.ExtrudeGeometry(shape, settings);
+        const fillMaterial = new THREE.MeshPhongMaterial({color: 0x515151});
         const cube = new THREE.Mesh(geometry, fillMaterial);
         const lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00});
         const line = new THREE.LineSegments(
