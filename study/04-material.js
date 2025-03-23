@@ -47,26 +47,22 @@ import { OrbitControls } from '../examples/jsm/controls/OrbitControls.js';
     }
 
      _setupModel() {
-        const vertices = [
-            -1, 1, 0,
-            1, 1, 0,
-            -1, -1, 0,
-            1, -1, 0,
-        ];
-         const geometry = new THREE.BufferGeometry();
-
-         geometry.setAttribute("position", 
-            new THREE.Float32BufferAttribute(vertices, 3));
-
-            const material = new THREE.LineDashedMaterial({
-                color: 0xffff00,
-                dashSize: 0.2,
-                gapSize: 0.1,
-                scale: 1
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xffff00,
+            emissive: 0x00000,
+            roughness: 0.25,
+            metalness: 0.2,
+            flatShading: false,
+            wireframe: false
         });
-        const line = new THREE.LineLoop(geometry, material);
-        line.computeLineDistances();
-        this._scene.add(line);
+
+        const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+        box.position.set(-1, 0, 0);
+        this._scene.add(box);
+
+        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), material);
+        sphere.position.set(1, 0, 0);
+        this._scene.add(sphere);
      }
      
  
