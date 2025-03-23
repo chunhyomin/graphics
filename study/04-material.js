@@ -37,7 +37,7 @@ import { OrbitControls } from '../examples/jsm/controls/OrbitControls.js';
  
      _setupLight() {
          const color = 0xffffff;
-         const intensity = 1;
+         const intensity = 5;
          const light = new THREE.DirectionalLight(color, intensity);
          light.position.set(-1, 2, 4);
          this._scene.add(light);
@@ -47,15 +47,32 @@ import { OrbitControls } from '../examples/jsm/controls/OrbitControls.js';
     }
 
      _setupModel() {
-        const material = new THREE.MeshStandardMaterial({
-            color: 0xffff00,
-            emissive: 0x00000,
-            roughness: 0.25,
-            metalness: 0.2,
-            flatShading: false,
-            wireframe: false
-        });
+        const textureLoader = new THREE.TextureLoader();
+        const map = textureLoader.load(
+             "../examples/textures/uv_grid_opengl.jpg",
+             texture => {
+                 texture.repeat.x = 1;
+                 texture.repeat.y = 1;
 
+
+                 texture.wrapS = THREE.ClampToEdgeWrapping;
+                 texture.wrapT = THREE.ClampToEdgeWrapping;
+ 
+                 texture.offset.x = 0;
+                 texture.offset.y = 0;
+ 
+                 texture.rotation = THREE.MathUtils.degToRad(45);
+                 texture.center.x = 0.5;
+                 texture.center.y = 0.5;
+ 
+                 texture.magFilter = THREE.NearestFilter;
+                 texture.minFilter = THREE.NearestMipmapLinearFilter;
+             }
+         );
+
+        const material = new THREE.MeshStandardMaterial({
+            map: map
+        });
         const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
         box.position.set(-1, 0, 0);
         this._scene.add(box);
