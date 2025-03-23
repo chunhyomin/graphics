@@ -1,5 +1,6 @@
 import * as THREE from '../build/three.module.js';
- 
+import { OrbitControls } from '../examples/jsm/controls/OrbitControls.js';
+
  class App {
      constructor() {
          const divContainer = document.querySelector('#webgl-container');
@@ -18,7 +19,8 @@ import * as THREE from '../build/three.module.js';
          this._setupCamera();
          this._setupLight();
          this._setupModel();
-         
+         this._setupControls();
+
          window.onresize = this.resize.bind(this);
          this.resize();
      
@@ -40,7 +42,10 @@ import * as THREE from '../build/three.module.js';
          light.position.set(-1, 2, 4);
          this._scene.add(light);
      }
- 
+     _setupControls() {
+        this._controls = new OrbitControls(this._camera, this._renderer.domElement);
+    }
+
      _setupModel() {
          const vertices = [];
          for (let i = 0; i < 10000; i++) {
@@ -57,14 +62,15 @@ import * as THREE from '../build/three.module.js';
          );
  
          const material = new THREE.PointsMaterial({
-             color: 0x00ff00,
-             size: 0.05,
+             color: "red",
+             size: 5,
              sizeAttenuation: false
          });
  
          const points = new THREE.Points(geometry, material);
          this._scene.add(points);
      }
+     
  
      resize() {
          const width = this.divContainer.clientWidth;
