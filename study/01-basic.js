@@ -1,4 +1,3 @@
-// 20201507 정윤걸 과제제출용 인증 주석
 import * as THREE from '../build/three.module.js';
 
 class App {
