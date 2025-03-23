@@ -47,28 +47,26 @@ import { OrbitControls } from '../examples/jsm/controls/OrbitControls.js';
     }
 
      _setupModel() {
-         const vertices = [];
-         for (let i = 0; i < 10000; i++) {
-             const x = THREE.MathUtils.randFloatSpread(5);
-             const y = THREE.MathUtils.randFloatSpread(5);
-             const z = THREE.MathUtils.randFloatSpread(5);
-             vertices.push(x, y, z);
-         }
- 
+        const vertices = [
+            -1, 1, 0,
+            1, 1, 0,
+            -1, -1, 0,
+            1, -1, 0,
+        ];
          const geometry = new THREE.BufferGeometry();
-         geometry.setAttribute(
-             'position',
-             new THREE.Float32BufferAttribute(vertices, 3)
-         );
- 
-         const material = new THREE.PointsMaterial({
-             color: "red",
-             size: 5,
-             sizeAttenuation: false
-         });
- 
-         const points = new THREE.Points(geometry, material);
-         this._scene.add(points);
+
+         geometry.setAttribute("position", 
+            new THREE.Float32BufferAttribute(vertices, 3));
+
+            const material = new THREE.LineDashedMaterial({
+                color: 0xffff00,
+                dashSize: 0.2,
+                gapSize: 0.1,
+                scale: 1
+        });
+        const line = new THREE.LineLoop(geometry, material);
+        line.computeLineDistances();
+        this._scene.add(line);
      }
      
  
