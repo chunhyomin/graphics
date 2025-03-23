@@ -38,6 +38,10 @@ class App {
     }
 
     _setupLight() {
+
+        const ambientLight = new THREE.AmbientLight(0xffffff , 0.2);
+        this._scene.add(ambientLight);
+
         const color = 0xffffff;
         const intensity = 2;
         const light = new THREE.DirectionalLight(color, intensity);
@@ -62,25 +66,42 @@ class App {
         const mapRoughness = textureLoader.load("images/glass/Glass_Window_002_roughness.jpg");
         const mapMetalic = textureLoader.load("images/glass/Glass_Window_002_metallic.jpg");
         const mapAlpha = textureLoader.load("images/glass/Glass_Window_002_opacity.jpg");
+        const mapLight = textureLoader.load("images/glass/light.jpg");
+
         const material = new THREE.MeshStandardMaterial({
             map: map,
             normalMap: mapNormal,
+            displacementMap: mapHeight,
+            displacementScale: 0.2,
+            displacementBias: -0.15,
+
+            aoMap: mapAO,
+            aoMapIntensity: 3,
+
+            roughnessMap: mapRoughness,
+            roughness: 0.5,
+
+            metalnessMap: mapMetalic,
+            metalness: 0.5,
+
+            //alphaMap: mapAlpha,
+            transparent: true,
+            side: THREE.DoubleSide,
+            
+            lightMap: mapLight,
+            lightMapIntensity: 2,
+            
         });
 
-        const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
+        const box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1, 256, 256, 256), material);
         box.position.set(-1, 0, 0);
+        box.geometry.attributes.uv2 = box.geometry.attributes.uv;
         this._scene.add(box);
 
-        const boxHelper = new VertexNormalsHelper(box, 0.1, 0xffff00, 1);
-        this._scene.add(boxHelper);
-
-
-        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), material);
-        sphere.position.set(1, 0, 0);
+        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.7, 512, 512), material);        sphere.position.set(1, 0, 0);
+        sphere.geometry.attributes.uv2 = sphere.geometry.attributes.uv;
         this._scene.add(sphere);
 
-        const sphereHelper = new VertexNormalsHelper(sphere, 0.1, 0xffff00, 1);
-        this._scene.add(sphereHelper);
     }
 
     resize() {
